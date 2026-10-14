@@ -44,9 +44,27 @@ A **cross-session mode** reads many sessions instead of one, looks for the same 
 
 ## Install
 
-**Claude Code:** copy the `post-mortem/` folder into `~/.claude/skills/` (all projects) or `.claude/skills/` in one project. Or unzip `post-mortem.skill`, which holds the same folder.
+The skill is one folder, `post-mortem/`, in the open `SKILL.md` format, so any agent that reads that format can use it. `post-mortem.skill` is the same folder as a zip.
 
-**Claude apps (claude.ai, desktop):** upload `post-mortem.skill` where the app lets you add a skill (a `.skill` file is a zip of the folder).
+**Claude Code:** copy `post-mortem/` into `~/.claude/skills/` (all projects) or `.claude/skills/` in one project.
+
+**Claude apps (claude.ai, desktop):** upload `post-mortem.skill` where the app lets you add a skill.
+
+**Gemini CLI** (checked with version 0.61.0):
+
+```bash
+gemini skills install https://github.com/BartProvoost/post-mortem-skill --path post-mortem
+```
+
+Add `--scope workspace` to install it for the current project only.
+
+**OpenAI Codex CLI:** copy `post-mortem/` into `~/.agents/skills/`, the user-level skills folder Codex reads. Codex CLI 0.158.0 has no install command for skills, so copying is the route.
+
+**Google Antigravity:** copy `post-mortem/` into `~/.gemini/config/skills/`.
+
+**Any other agent:** point it at `post-mortem/SKILL.md` as instructions for the review, or paste that file in. The references are loaded only when `SKILL.md` asks for them, so keep the folder together.
+
+**One limit outside Claude Code:** the method works in any agent, but `references/transcripts.md` describes Claude Code's transcript files (`~/.claude/projects/.../<session>.jsonl`). For a long session or cross-session mode in another agent, tell it where that agent keeps its session logs; the rules about reading a log by passage still apply.
 
 ## Set it up once: `references/local.md`
 
