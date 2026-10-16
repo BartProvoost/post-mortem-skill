@@ -1,12 +1,14 @@
 ---
 name: post-mortem
 description: >-
-  Review a finished working session or task and turn its friction into changes that land in real files - a systemic cause per finding, a destination per finding, and an honest zero when the session was clean. Triggers on post-mortem, retrospective, retro, review this session, what went wrong here, what should we change, how did that go, lessons from this run. Cross-session mode mines many sessions for recurring hand-done work and proposes the cheapest artefact per job (rule, script, recipe, skill, automation); triggers on recurring work, what should become a skill, mine my sessions, what do I keep doing by hand. NOT a live-system incident review, NOT a code review of the diff, and NOT predictive (that is premortem). NL triggers: wat ging er mis in deze sessie, wat leren we hieruit voor de werkwijze, wat doe ik steeds opnieuw met de hand.
+  Review a finished working session or task and turn its friction into changes that land in real files - a systemic cause per finding, a destination per finding, and an honest zero when the session was clean. Triggers on post-mortem, retrospective, retro, review this session, what went wrong here, what should we change, how did that go, lessons from this run. Cross-session mode mines many sessions for recurring hand-done work and proposes the cheapest artefact per job (rule, script, recipe, skill, automation); triggers on recurring work, what should become a skill, mine my sessions, what do I keep doing by hand. Its comparison form lays several sessions of one kind of work side by side (every run of one skill, every deploy) to compare cost and count the problems that keep coming back; triggers on compare these sessions, my X sessions keep going wrong, where does the time go across sessions. NOT a live-system incident review, NOT a code review of the diff, and NOT predictive (that is premortem). NL triggers: wat ging er mis in deze sessie, wat leren we hieruit voor de werkwijze, wat doe ik steeds opnieuw met de hand.
 ---
 
 # Post-mortem
 
 A retrospective on the WORK, not on the artefact. It looks back at a finished session or task, finds what made it harder than it should have been, and turns that into a change someone can make in a named file. Its value is entirely in the routing: a lesson that does not reach a file is lost the moment the chat ends.
+
+**One session or many.** Steps 1 to 6 review one session. Cross-session mode reads many: either to find work done by hand again and again, or to compare sessions of one kind of work and count the problems that recur across them (section *Cross-session mode* below).
 
 **Siblings, so this is not run in the wrong lane:** a premortem imagines failure before committing; a handoff compacts state for the next agent; a bug-diagnosis loop fixes one failure; a code review reads the diff. If `references/local.md` names where these live, point the user there. This one reads the SESSION. It composes with handoff (handoff says what the next agent must know, this says what should change so the next session goes better).
 
@@ -122,7 +124,7 @@ Format per finding: **What happened** (factual, with its trace) / **Root cause**
 
 ## Cross-session mode
 
-Steps 1 to 6 read one session for friction. Cross-session mode reads many sessions for the same JOB done by hand again and again, clusters by job, counts distinct sessions, and proposes the cheapest artefact per job (nothing, a rule, a script, a recipe, a skill, an automation). Run it on request only. Its six steps, anti-patterns and limits are in `references/cross-session.md`; read that file completely before starting.
+Steps 1 to 6 read one session for friction. Cross-session mode reads many, in two forms. **Recurring work** looks for the same JOB done by hand again and again, clusters by job, counts distinct sessions, and proposes the cheapest artefact per job (nothing, a rule, a script, a recipe, a skill, an automation). **Comparison** takes sessions of one kind the user names (every run of one skill, every deploy), measures each the same way against the size of its input, and turns a cause found in two or more of them into a finding. Run either on request only. Their steps, anti-patterns and limits are in `references/cross-session.md`; read that file completely before starting.
 
 ## FAIL conditions
 
@@ -134,6 +136,7 @@ Steps 1 to 6 read one session for friction. Cross-session mode reads many sessio
 - More than seven findings, or findings padded to reach a count.
 - A proposed gate with no class and no displacement answer.
 - In cross-session mode, a candidate from one session, or one without its distinct-session count and gap-fit verdict.
+- In the comparison form, a recurring cause counted from one session, or sessions ranked on raw cost while their inputs differ in size.
 - Closing on a summary that implies completeness without naming what was left out.
 
 ## Worked example (one finding, showing every required element)

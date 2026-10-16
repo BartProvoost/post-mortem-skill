@@ -1,8 +1,18 @@
 # post-mortem
 
-A skill for Claude Code (and other agents that read `SKILL.md` skills) that reviews a finished working session and turns what went wrong, or unusually right, into concrete changes in named files. Not a summary of the session and not a code review: a review of how the work went, with every lesson routed to the file where it will actually be read next time.
+A skill for Claude Code (and other agents that read `SKILL.md` skills) that reviews a finished working session, or many sessions at once, and turns what went wrong, or unusually right, into concrete changes in named files. Not a summary of the session and not a code review: a review of how the work went, with every lesson routed to the file where it will actually be read next time.
 
 > A lesson that does not reach a file is lost the moment the chat ends.
+
+## One session or many
+
+| You ask | It does |
+|---|---|
+| *do a post-mortem of this session* | Reviews one session in six steps (below). |
+| *compare my last eight deploy sessions: where does the time go, what keeps going wrong?* | **Comparison:** lays sessions of one kind of work side by side, measures each the same way against the size of its input, and turns a problem found in two or more of them into one finding with its session count. The cheapest session is compared with the dearest, so what worked can be made repeatable. |
+| *what do I keep doing by hand? mine my last 30 sessions* | **Recurring work:** finds the same job done by hand in session after session and proposes the cheapest artefact that would take it over: nothing, a rule, a script, a template, a skill, or an automation. |
+
+A single post-mortem sees one bad day. A problem that costs ten minutes in every session of the same kind only shows up when you put those sessions next to each other, and that is the case the comparison form is built for.
 
 ## What it does
 
@@ -23,7 +33,7 @@ It walks the session in six steps:
 5. **Class any new check and answer displacement.** What failure replaces the one the check closes, and what is the cheapest way to satisfy it without doing the work.
 6. **Deliver at most seven findings**, ranked by how often the cause would recur. It proposes; it never edits your files on its own.
 
-A **cross-session mode** reads many sessions instead of one, looks for the same job done by hand again and again, and proposes the cheapest artefact that would take it over: nothing, a rule, a script, a template, a skill, or an automation.
+The two cross-session forms in the table above run the same evidence rules over many sessions; they are described in `post-mortem/references/cross-session.md`.
 
 ## What it does that most retrospective skills do not
 
@@ -83,7 +93,7 @@ post-mortem/
   references/
     local.example.md               template for your local.md
     transcripts.md                 only when a session no longer fits in context
-    cross-session.md               only in cross-session mode
+    cross-session.md               only when reading many sessions (comparison, recurring work)
 post-mortem.skill                  the same folder as one upload file
 ```
 
