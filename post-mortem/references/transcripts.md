@@ -10,6 +10,10 @@ Claude Code writes one file per session at `~/.claude/projects/<slugged-cwd>/<se
 
 The bulk of a transcript sits in the ENTRY-LEVEL `toolUseResult` key, not in the `tool_result` blocks inside `message.content`, which are stubs. Summing the stubs undercounts tool output by roughly half and can return a clean zero for a file that was read back dozens of times. Measured on a 26 MB transcript: 1.526.192 characters and zero mentions of a term on the wrong key, against 2.652.280 characters and 44 mentions on the right one.
 
+## Messages sent while a turn runs
+
+A message the user types while the agent is still working is NOT a `type: user` entry: Claude Code stores it as an entry of `type: attachment` whose `attachment.type` is `queued_command`, with the text in `attachment.prompt`. Background-task notifications arrive the same way and start with `<task-notification>`. A reader that lists only user entries misses these; measured on one machine, 294 such messages in 57 of 101 sessions, among them corrections aimed at a running post-mortem.
+
 ## Refused tool calls
 
 A refused tool call with feedback sits in the entry-level `toolUseResult` as the text after `user said:`; an empty one is a refusal without feedback. Search for these separately: a tool that counts the agent's own concessions does not see them.

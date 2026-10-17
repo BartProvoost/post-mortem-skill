@@ -17,9 +17,13 @@ Copy this file to `local.md` in the same folder and fill in the angle-bracket pa
 
 **Was-this-found-before grep (Step 3):** <which files to search for earlier post-mortem findings, for example the change log and the backlog>.
 
+**Still-open read (Step 4):** <the search that shows an existing rule, helper or parked item for a finding's job, for example a scripts index and the backlog including closed or wontfix items>.
+
+**Report file (Step 6):** <where a report file goes when it must outlive the chat, and where one goes that cites confidential sessions>.
+
 ## Transcript tools
 
-<Scripts that list sessions, strip a transcript to its narrative, or find correction moments; or none, in which case the agent searches the transcript files directly as `transcripts.md` describes.>
+<Scripts that list sessions, strip a transcript to its narrative, find correction moments, list the user's messages including those sent while a turn ran, or count refused calls per guard; or none, in which case the agent searches the transcript files directly as `transcripts.md` describes.>
 
 ## Cross-session mode
 

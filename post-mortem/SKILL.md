@@ -42,7 +42,7 @@ Walk the session in order. Per significant step: what was attempted, what actual
 
 **When the session does not fit in context**, *walk it in order* is not available: read `references/transcripts.md` before opening any transcript file.
 
-**Done when:** every correction in the session appears in the reconstruction with its trace, or is explicitly listed as unreconstructable.
+**Done when:** every correction in the session appears in the reconstruction with its trace, or is explicitly listed as unreconstructable; and every message the user sent in the reviewed window, including those sent WHILE a turn ran (the transcript tool in `references/local.md` lists both), lands in a finding, the closed list or the residue. Measured over 101 reports: 18 left out a correction, and the mid-turn messages, 294 in 57 sessions, were invisible to the tool that listed the turns.
 
 ## Step 2 - Assess execution
 
@@ -55,7 +55,7 @@ Flag anything that felt harder than it should have, even where it eventually suc
 **Four places to look that the reads above pass over, because each is a cost the session paid without anything failing:**
 
 - **Navigation.** Where did finding the right file or fact take several calls? The fix is usually a pointer in the file that was open at the time, not a new document.
-- **Tool economy.** Which tool calls were expensive (a long timeout, a large read, the same probe retyped) and could have been one cheap call or a committed helper? **Count refused calls per guard with the transcript tool (`references/local.md`), never from memory.** A guard that refused three times in this session, or that recent sessions also report, is a finding about why its rule did not fire before the call, not a closed one: over 19 sessions, a pipe guard refused 74 times while each report called it working.
+- **Tool economy.** Which tool calls were expensive (a long timeout, a large read, the same probe retyped) and could have been one cheap call or a committed helper? **Count refused calls per guard with the transcript tool (`references/local.md`), never from memory, and put its count line in the residue.** A guard that refused three times in this session, or that recent sessions also report, is a finding about why its rule did not fire before the call, not a closed one: over 19 sessions, a pipe guard refused 74 times while each report called it working.
 - **Information access.** What did you need and could not see: a log, a read-only view of a service, the state on the other machine? Name it; the fix is access, not care.
 - **No-op instructions.** Which standing instruction was loaded and changed nothing in this session, or was followed in a way that made no difference? That is a prune candidate, and a long steering file is where these collect.
 
@@ -74,7 +74,7 @@ A **good cause** points at something fixable and outside the moment: a missing o
 
 A **bad cause** is the symptom restated at a higher altitude: I should have read more carefully, the code was complex, it took a while, the conventions were unclear when no convention was in play. The tell is that it names no artefact. If the cause cannot be attached to a file, it is not yet a cause.
 
-**Then ask whether this cause was found before.** Grep the change log and the backlog (`references/local.md` names them) for `post-mortem` together with the artefact the cause names. An earlier finding on the same artefact that was closed with a written rule means the rule did not fire: this time the action is a mechanism, or the finding says why none exists.
+**Then ask whether this cause was found before.** Grep the change log and the backlog (`references/local.md` names them) for `post-mortem` together with the artefact the cause names. An earlier finding on the same artefact that was closed with a written rule means the rule did not fire: this time the action is a mechanism, or the finding says why none exists. **An earlier finding on the same CHECK that was closed by widening or narrowing its pattern means the pattern is chasing examples:** this time the action is to measure the check's precision over every run still on disk, and that rate with its n decides between another patch, a structured field instead of matched prose, or dropping the check. One fold's flags are not that measurement.
 
 **Done when:** every friction point from Step 1 either has a cause naming an artefact, or is explicitly recorded as one-off with no systemic cause behind it. That second outcome is a legitimate result, not a failure of this step.
 
@@ -99,11 +99,11 @@ A finding without a destination is not delivered. Each one names the file and th
 
 Never apply the change here. Propose it; the user decides. If a fix needs a choice between real alternatives, ask one question with labelled options rather than picking silently.
 
-**Check that a finding is still OPEN before you propose it, not before you implement it.** Where several sessions run at once, a finding from a session that ran hours ago may already have been fixed by another. So step 4 ends with one grep per finding against the destination file it names, and a finding whose change is already there is reported as already closed rather than proposed. **The same read looks for a rule the change would CONTRADICT**; if one exists, show both and let the user choose, never append the new rule beside the old one. An approved finding is work, so a finding that is already done is duplicate work with the user's approval attached to it.
+**Check that a finding is still OPEN before you propose it, not before you implement it.** Where several sessions run at once, a finding from a session that ran hours ago may already have been fixed by another. So step 4 ends with a still-open read per finding: the destination's section headings (a grep for your own words misses a rule written in other words, which re-proposed an existing rule and got a go on a closed one), the gap-fit search `references/local.md` names for the finding's job (an existing helper is a closed finding too), and the backlog, parked and wontfix items included. A finding whose change is already there is reported as already closed rather than proposed. **When an action names an existing script, rule or file as the mechanism, open it and quote the line that does the job**; an index row or a summary of it is not that line. Measured: one proposal named a sync script from its index row, and the script skips exactly the dirty tree it was proposed for; another said a brief asks for a label that the brief forbids. **The same read looks for a rule the change would CONTRADICT**; if one exists, show both and let the user choose, never append the new rule beside the old one. An approved finding is work, so a finding that is already done is duplicate work with the user's approval attached to it.
 
 **Once a finding is APPROVED, execute the action as written; an extra file is a separate ask.** A go on a described change is not a go on a better one you thought of while typing, and the wider the file's blast radius (a new check wired into the deploy script runs in front of every future deploy) the less a mention in the commit message substitutes for a question.
 
-**Prove a change on the exact trace, and look beside it.** Run the fix against the very string, turn or file quoted in *What happened*, not a reconstruction of it, and grep the artefact's sibling files for the same pattern before calling it fixed. Measured: a fix tested on a look-alike sentence still failed the reply it came from, and one file's fix left two sibling scripts with the same bug.
+**Prove a change on the exact trace, and look beside it.** Run the fix against the very string, turn or file quoted in *What happened*, not a reconstruction of it, and grep the artefact's sibling files for the same pattern before calling it fixed. Measured: a fix tested on a look-alike sentence still failed the reply it came from, and one file's fix left two sibling scripts with the same bug. **For a guard or check that has a fixture file, the trace goes in as a fixture case**, so the next change to it is tested on what motivated this one.
 
 **Report the closed ones rather than dropping them.** A finding another session had already fixed says the mechanism was discoverable enough to be built twice and not discoverable enough to be found once.
 
@@ -111,18 +111,21 @@ Never apply the change here. Propose it; the user decides. If a fix needs a choi
 
 ## Step 5 - Class the rule, and answer displacement
 
-Only for a finding that proposes a NEW check, gate, lint or enforcement layer:
+Only for a finding that adds, LOOSENS or changes a check, gate, lint or enforcement layer (a waiver, a relaxed pattern and a narrowed guard change what is enforced just as much as a new one):
 
 - **Class it** CONTRACT (right regardless of who executes it, never expires), TIER (compensates the attention of the cheap tier, expires only when that tier is gone) or QUIRK (compensates one model family or version, the only class that genuinely dates).
 - **Answer displacement:** what failure mode replaces the one this closes, and what is the cheapest way to satisfy the new gate without doing the work. Cover it, or record it as the known residual. A proposed gate arriving without this line is not ready to propose.
+- **Name the gate's own cost:** what does it refuse, or push into hand work elsewhere, on a run where nothing is wrong? Measured: a refusal whose bypass was named correctly moved about thirty hand-written rows into every later run, and that cost was the one that recurred.
 
 ## Step 6 - Deliver
 
-At most **seven findings**, ranked by how often the cause would recur, not by how annoying the moment felt. Then the residue: what was noticed and NOT turned into a finding, and why. Output in the response by default; write a file only when the session was long enough that the findings must outlive the chat.
+At most **seven findings**, ranked by how often the cause would recur, not by how annoying the moment felt. Then the residue: what was noticed and NOT turned into a finding, and why. A finding whose action is none, or that was already closed, belongs in the residue or the closed list, not in the count.
+
+**Write the report to a file and check it before delivering.** One `### Finding N` block per finding with the five field lines below, then run `python scripts/check_report.py <file>` from this skill's folder and fix what it refuses (a missing or empty field, a Proof with no command, entry or honest *cannot be named*, an action of none, a changed check without a Class line, more than seven). The file goes to the scratchpad, or where `references/local.md` keeps reports that must outlive the chat; the response gives the findings and the path.
 
 Format per finding: **What happened** (factual, with its trace) / **Root cause** (systemic, naming an artefact) / **Action** (file plus change) / **Proof** (what will show the change works: a check that now refuses, a test that passes, or the next situation in which the old mistake would have happened) / **Recurrence** (high, medium, low). A finding whose proof cannot be named is a rule nobody can tell has fired; say so in the Proof line rather than leaving it out.
 
-**When the user said beforehand to carry out the findings, the format stays the same.** Proof is then the check you ran after applying the change, with its result; a new check still gets its class and displacement line; a finding applied without a Proof line is listed as such. Measured: pre-authorised reports carried a Proof line 1 time in 6, against 3 in 3 when proposing.
+**When the user said beforehand to carry out the findings, the format stays the same.** Proof is then the check you ran after applying the change, with its result; a new check still gets its class and displacement line; a finding applied without a Proof line is listed as such. **Write and check the report file BEFORE the first change is applied, and lead the closing message with the findings, not with the run before them.** Measured: pre-authorised reports carried a Proof line 1 time in 6, against 3 in 3 when proposing; on a second machine 26 of 26 pre-authorised reports were built first and summarised after, inside the run's closing message, where the user answered the run's question and never saw the findings.
 
 **Zero findings is a real result.** A clean session gets: what worked, why it worked, nothing to change. State it in one line and stop.
 
