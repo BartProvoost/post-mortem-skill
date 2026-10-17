@@ -25,4 +25,5 @@ Copy this file to `local.md` in the same folder and fill in the angle-bracket pa
 
 - **Confidentiality (C1):** <which material in the transcripts may not be quoted, and where the candidate list may be stored>.
 - **Where each rung lives (C4):** <instruction file, script folder, template folder, skill folder, automation platform>.
+- **Comparison form (CP1, CP2):** <how a kind of session is recognised here (a skill or command it ran, a phrase in the first request), which tool counts tool calls and corrections per session, and what the size of an input is measured in>.
 - **Gap-fit checks (C5):** <the catalogues and searches that show what already exists: a skills list, a scripts index, a templates index>.

@@ -1,12 +1,14 @@
 ---
 name: post-mortem
 description: >-
-  Review a finished working session or task and turn its friction into changes that land in real files - a systemic cause per finding, a destination per finding, and an honest zero when the session was clean. Triggers on post-mortem, retrospective, retro, review this session, what went wrong here, what should we change, how did that go, lessons from this run. Cross-session mode mines many sessions for recurring hand-done work and proposes the cheapest artefact per job (rule, script, recipe, skill, automation); triggers on recurring work, what should become a skill, mine my sessions, what do I keep doing by hand. NOT a live-system incident review, NOT a code review of the diff, and NOT predictive (that is premortem). NL triggers: wat ging er mis in deze sessie, wat leren we hieruit voor de werkwijze, wat doe ik steeds opnieuw met de hand.
+  Review a finished working session or task and turn its friction into changes that land in real files - a systemic cause per finding, a destination per finding, and an honest zero when the session was clean. Triggers on post-mortem, retrospective, retro, review this session, what went wrong here, what should we change, how did that go, lessons from this run. Cross-session mode mines many sessions for recurring hand-done work and proposes the cheapest artefact per job (rule, script, recipe, skill, automation); triggers on recurring work, what should become a skill, mine my sessions, what do I keep doing by hand. Its comparison form lays several sessions of one kind of work side by side (every run of one skill, every deploy) to compare cost and count the problems that keep coming back; triggers on compare these sessions, my X sessions keep going wrong, where does the time go across sessions. NOT a live-system incident review, NOT a code review of the diff, and NOT predictive (that is premortem). NL triggers: wat ging er mis in deze sessie, wat leren we hieruit voor de werkwijze, wat doe ik steeds opnieuw met de hand.
 ---
 
 # Post-mortem
 
 A retrospective on the WORK, not on the artefact. It looks back at a finished session or task, finds what made it harder than it should have been, and turns that into a change someone can make in a named file. Its value is entirely in the routing: a lesson that does not reach a file is lost the moment the chat ends.
+
+**One session or many.** Steps 1 to 6 review one session. Cross-session mode reads many: either to find work done by hand again and again, or to compare sessions of one kind of work and count the problems that recur across them (section *Cross-session mode* below).
 
 **Siblings, so this is not run in the wrong lane:** a premortem imagines failure before committing; a handoff compacts state for the next agent; a bug-diagnosis loop fixes one failure; a code review reads the diff. If `references/local.md` names where these live, point the user there. This one reads the SESSION. It composes with handoff (handoff says what the next agent must know, this says what should change so the next session goes better).
 
@@ -53,7 +55,7 @@ Flag anything that felt harder than it should have, even where it eventually suc
 **Four places to look that the reads above pass over, because each is a cost the session paid without anything failing:**
 
 - **Navigation.** Where did finding the right file or fact take several calls? The fix is usually a pointer in the file that was open at the time, not a new document.
-- **Tool economy.** Which tool calls were expensive (a long timeout, a large read, the same probe retyped) and could have been one cheap call or a committed helper?
+- **Tool economy.** Which tool calls were expensive (a long timeout, a large read, the same probe retyped) and could have been one cheap call or a committed helper? **Count refused calls per guard with the transcript tool (`references/local.md`), never from memory.** A guard that refused three times in this session, or that recent sessions also report, is a finding about why its rule did not fire before the call, not a closed one: over 19 sessions, a pipe guard refused 74 times while each report called it working.
 - **Information access.** What did you need and could not see: a log, a read-only view of a service, the state on the other machine? Name it; the fix is access, not care.
 - **No-op instructions.** Which standing instruction was loaded and changed nothing in this session, or was followed in a way that made no difference? That is a prune candidate, and a long steering file is where these collect.
 
@@ -101,6 +103,8 @@ Never apply the change here. Propose it; the user decides. If a fix needs a choi
 
 **Once a finding is APPROVED, execute the action as written; an extra file is a separate ask.** A go on a described change is not a go on a better one you thought of while typing, and the wider the file's blast radius (a new check wired into the deploy script runs in front of every future deploy) the less a mention in the commit message substitutes for a question.
 
+**Prove a change on the exact trace, and look beside it.** Run the fix against the very string, turn or file quoted in *What happened*, not a reconstruction of it, and grep the artefact's sibling files for the same pattern before calling it fixed. Measured: a fix tested on a look-alike sentence still failed the reply it came from, and one file's fix left two sibling scripts with the same bug.
+
 **Report the closed ones rather than dropping them.** A finding another session had already fixed says the mechanism was discoverable enough to be built twice and not discoverable enough to be found once.
 
 **Done when:** every finding names a destination file, a mechanism verdict (the mechanism proposed, or the narrowest one rejected with the condition it would misfire on), and the result of its still-open grep.
@@ -118,11 +122,13 @@ At most **seven findings**, ranked by how often the cause would recur, not by ho
 
 Format per finding: **What happened** (factual, with its trace) / **Root cause** (systemic, naming an artefact) / **Action** (file plus change) / **Proof** (what will show the change works: a check that now refuses, a test that passes, or the next situation in which the old mistake would have happened) / **Recurrence** (high, medium, low). A finding whose proof cannot be named is a rule nobody can tell has fired; say so in the Proof line rather than leaving it out.
 
+**When the user said beforehand to carry out the findings, the format stays the same.** Proof is then the check you ran after applying the change, with its result; a new check still gets its class and displacement line; a finding applied without a Proof line is listed as such. Measured: pre-authorised reports carried a Proof line 1 time in 6, against 3 in 3 when proposing.
+
 **Zero findings is a real result.** A clean session gets: what worked, why it worked, nothing to change. State it in one line and stop.
 
 ## Cross-session mode
 
-Steps 1 to 6 read one session for friction. Cross-session mode reads many sessions for the same JOB done by hand again and again, clusters by job, counts distinct sessions, and proposes the cheapest artefact per job (nothing, a rule, a script, a recipe, a skill, an automation). Run it on request only. Its six steps, anti-patterns and limits are in `references/cross-session.md`; read that file completely before starting.
+Steps 1 to 6 read one session for friction. Cross-session mode reads many, in two forms. **Recurring work** looks for the same JOB done by hand again and again, clusters by job, counts distinct sessions, and proposes the cheapest artefact per job (nothing, a rule, a script, a recipe, a skill, an automation). **Comparison** takes sessions of one kind the user names (every run of one skill, every deploy), measures each the same way against the size of its input, and turns a cause found in two or more of them into a finding. Run either on request only. Their steps, anti-patterns and limits are in `references/cross-session.md`; read that file completely before starting.
 
 ## FAIL conditions
 
@@ -134,6 +140,7 @@ Steps 1 to 6 read one session for friction. Cross-session mode reads many sessio
 - More than seven findings, or findings padded to reach a count.
 - A proposed gate with no class and no displacement answer.
 - In cross-session mode, a candidate from one session, or one without its distinct-session count and gap-fit verdict.
+- In the comparison form, a recurring cause counted from one session, or sessions ranked on raw cost while their inputs differ in size.
 - Closing on a summary that implies completeness without naming what was left out.
 
 ## Worked example (one finding, showing every required element)
