@@ -14,8 +14,11 @@ Copy this file to `local.md` in the same folder and fill in the angle-bracket pa
 | Change log and status | <for example `CHANGELOG.md`; note it if the file is generated from fragments> |
 | Project context | <for example `docs/` or a `.context/` folder> |
 | A script or check | <for example `scripts/`, and the index file that lists them, if any> |
+| A rule's case file | <where the incidents behind a rule live, or none; a new instance of an existing rule goes there instead of becoming a new rule> |
 
 **Was-this-found-before grep (Step 3):** <which files to search for earlier post-mortem findings, for example the change log and the backlog>.
+
+**Instance-of-an-existing-rule read (Step 4):** <how to list the existing checks and hooks, and the size check on the always-loaded instruction file, if any>.
 
 **Still-open read (Step 4):** <the search that shows an existing rule, helper or parked item for a finding's job, for example a scripts index and the backlog including closed or wontfix items>.
 

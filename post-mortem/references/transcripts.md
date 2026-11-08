@@ -22,6 +22,8 @@ A refused tool call with feedback sits in the entry-level `toolUseResult` as the
 
 A user-role entry can be a subagent prompt (delegated work written by the agent), a compaction summary (the agent's paraphrase) or the copied prefix of a forked or resumed session. Step 1 of `SKILL.md` says how to treat each.
 
+**Date a session by the timestamp of its first entry, never by the file's modification time:** a resumed or forked session keeps writing to its file, so the modification date moves to the last activity and shifts the session into the wrong window.
+
 ## Tools
 
 Before writing a parser, check `local.md` for scripts that already list sessions, strip a transcript to its narrative or find its correction moments, and start from those. Without any, search the file for the passages first (an error string, a file name, `user said:`) and open only those lines.
