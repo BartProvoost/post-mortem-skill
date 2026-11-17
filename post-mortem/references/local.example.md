@@ -1,6 +1,6 @@
 # This installation (template)
 
-Copy this file to `local.md` in the same folder and fill in the angle-bracket parts. `SKILL.md` and the other references name ROLES; this file says which real file, script or skill plays each role where the skill runs. Leave a row out when your setup has no such file. **When `local.md` does not exist, the skill reads this template and asks the user once where each role lives**, and delivers findings as text for any role nobody can name.
+Copy this file to `local.md` in the same folder and fill in the angle-bracket parts. `SKILL.md` and the other references name ROLES; this file says which real file, script or skill plays each role where the skill runs. Leave a row out when your setup has no such file. **When `local.md` does not exist, the skill reads this template and asks the user once where each role lives**, and delivers findings as text for any role nobody can name (the Still open line then reads *no destination: delivered as text*).
 
 ## Destinations (Step 3 and Step 4)
 
@@ -22,7 +22,7 @@ Copy this file to `local.md` in the same folder and fill in the angle-bracket pa
 
 **Still-open read (Step 4):** <the search that shows an existing rule, helper or parked item for a finding's job, for example a scripts index and the backlog including closed or wontfix items>.
 
-**Report file (Step 6):** <where a report file goes when it must outlive the chat, and where one goes that cites confidential sessions>.
+**Report file (Step 6):** <where a report file goes when it must outlive the chat, and where one goes that cites confidential sessions; any hook that enforces showing the report>.
 
 ## Transcript tools
 

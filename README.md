@@ -84,7 +84,7 @@ The skill names destinations by role (your instruction file, your backlog, your 
 1. Copy `post-mortem/references/local.example.md` to `post-mortem/references/local.md`.
 2. Fill in the rows you have: for example `CLAUDE.md` as instruction file, `docs/decisions/` as decision log, `BACKLOG.md` or your issue tracker as backlog. Leave out what you do not have.
 
-Without `local.md` the skill still works: it asks once where each role lives and delivers findings as text for anything nobody can name.
+Without `local.md` the skill still works: it asks once where each role lives and delivers findings as text for anything nobody can name. That also covers a chat with no project files at all.
 
 ## Files
 
@@ -95,6 +95,10 @@ post-mortem/
     local.example.md               template for your local.md
     transcripts.md                 only when a session no longer fits in context
     cross-session.md               only when reading many sessions (comparison, recurring work)
+    gates.md                       only when a finding proposes or changes a check
+    cases.md                       the measurements behind the rules
+  scripts/
+    check_report.py                checks a report file against the finding format
 post-mortem.skill                  the same folder as one upload file
 ```
 

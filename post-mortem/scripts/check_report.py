@@ -14,6 +14,8 @@ each with text. The check refuses a block when:
   - a field is missing or empty;
   - the Proof line holds no command in backticks, no turn or entry reference (`#123`) and no plain
     statement that no proof can be named (the skill allows that statement, not silence);
+  - the Still open line names no file it read and does not say *no destination: delivered as text*
+    (the form for a setup with no project files);
   - the Action says none or already closed (those belong in the residue or the closed list);
   - the Action adds, loosens or changes a guard, gate, check, lint, hook or refusal and the block has no
     Class line naming CONTRACT, TIER or QUIRK (or n.a. with a reason).
@@ -42,8 +44,11 @@ NO_ACTION = re.compile(r"(?i)^\W*(?:none|geen|n\.?a\.?|no action|already closed|
 GATE = re.compile(r"(?i)\b(?:guard|gate|check|lint|hook|refus\w*|weiger\w*|warn\w*|waarschuw\w*|block\w*)\b")
 CLASS = re.compile(r"(?i)\*{0,2}class\b[^\n]*?(?:\b(?:CONTRACT|TIER|QUIRK)\b|n\.?a\.?\W+\w+\s+\w+)")
 PROOF_OK = re.compile(r"`[^`]+`|#\d+|(?i:\bcannot be (?:named|proven|shown)\b|\bkan niet\b|\bno proof\b|\bgeen bewijs\b)")
-# A path (with a slash or a file extension) in backticks, or a plain *after reading <file>*.
-STILL_OPEN_OK = re.compile(r"`[^`]*(?:/|\.[a-z]{1,4})[^`]*`|(?i:after reading|na het lezen van)\s+\S+")
+# A path (with a slash or a file extension) in backticks, a plain *after reading <file>*, or the
+# statement that the setup has no file to read (a chat without a project: the README promises the
+# skill works there, and until 2026-11-17 this check refused every finding from one).
+STILL_OPEN_OK = re.compile(r"`[^`]*(?:/|\.[a-z]{1,4})[^`]*`|(?i:after reading|na het lezen van)\s+\S+"
+                           r"|(?i:\bno destination\b|\bgeen bestemming\b)")
 ZERO = re.compile(r"(?i)zero findings|geen bevindingen|nothing to change")
 
 
@@ -75,8 +80,9 @@ def problems(block):
     if got["proof"] and not PROOF_OK.search(got["proof"]):
         out.append("Proof names no command in backticks, no #entry and no statement that it cannot be named")
     if got["still open"] and not STILL_OPEN_OK.search(got["still open"]):
-        out.append("Still open names no file it read: quote a path with its line or heading, or say "
-                   "no existing mechanism after reading <file>")
+        out.append("Still open names no file it read: quote a path with its line or heading, say "
+                   "no existing mechanism after reading <file>, or, where the setup has no files, "
+                   "no destination: delivered as text")
     if got["action"] and NO_ACTION.search(got["action"]):
         out.append("Action is none or already closed: move it to the residue or the closed list")
     if got["action"] and GATE.search(got["action"]) and not CLASS.search(block):
